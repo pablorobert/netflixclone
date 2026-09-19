@@ -46,6 +46,10 @@ Sem a variável definida, a aplicação exibe um erro em tela em vez de falhar e
 | `bun run test:watch` | Testes em modo watch |
 | `bun run lint` | ESLint |
 
+> Use `bun run test`, não `bun test`. O segundo aciona o runner nativo do bun, que
+> ignora o `vite.config.js` — sem jsdom e sem `setupTests.js`, os testes falham com
+> `ReferenceError: document is not defined`.
+
 ## Estrutura
 
 ```
