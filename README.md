@@ -55,11 +55,17 @@ Sem a variável definida, a aplicação exibe um erro em tela em vez de falhar e
 ```
 src/
   api/tmdb.js              busca as seções da home e os detalhes de um título
+  hooks/
+    useHomeCatalog.js      carrega as seções e sorteia o destaque
+    useScrolledPast.js     avisa quando a página passou de N pixels de rolagem
   components/
-    Header.jsx             barra superior que fica preta ao rolar
+    Header.jsx             barra de navegação, fica sólida ao rolar
     FeaturedMovie.jsx      destaque sorteado entre os "Originais da Netflix"
+    MovieRowList.jsx       renderiza uma MovieRow por seção
     MovieRow.jsx           carrossel horizontal de pôsteres
-  App.jsx                  composição da página e carregamento dos dados
+    Feedback.jsx           telas de carregamento e de erro
+    Footer.jsx             rodapé com o crédito da TMDB
+  App.jsx                  só compõe a página
   main.jsx                 ponto de entrada (createRoot)
 ```
 
