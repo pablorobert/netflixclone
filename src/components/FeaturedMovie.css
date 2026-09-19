@@ -1,5 +1,7 @@
 .featured {
     height: 100vh;
+    background-size: cover;
+    background-position: center;
 }
 .featured--vertical {
     width: inherit;
@@ -20,6 +22,7 @@
 .featured--name {
     font-size: 60px;
     font-weight: bold;
+    margin: 0;
 }
 .featured--info {
     font-size: 18px;

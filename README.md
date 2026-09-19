@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Netflix Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clone da interface da Netflix construído com React 19 e Vite, consumindo o catálogo da
+[TMDB](https://www.themoviedb.org). Projeto de estudo — sem afiliação com a Netflix.
 
-## Available Scripts
+## Stack
 
-In the project directory, you can run:
+| Peça | Versão |
+|---|---|
+| React | 19 |
+| Vite | 8 |
+| Material UI (ícones) | 9 |
+| Vitest + Testing Library | 5 / 16 |
+| ESLint | 10 (flat config) |
+| Runtime / gerenciador | bun |
 
-### `yarn start`
+## Pré-requisitos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [bun](https://bun.sh) 1.4+
+- Uma chave de API da TMDB (gratuita): https://www.themoviedb.org/settings/api
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Configuração
 
-### `yarn test`
+```bash
+bun install
+cp .env.example .env.local
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Preencha a chave em `.env.local`:
 
-### `yarn build`
+```
+VITE_TMDB_API_KEY=sua_chave_aqui
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`.env.local` está no `.gitignore` — a chave nunca vai para o repositório.
+Sem a variável definida, a aplicação exibe um erro em tela em vez de falhar em silêncio.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Comando | O que faz |
+|---|---|
+| `bun run dev` | Servidor de desenvolvimento (abre o navegador automaticamente) |
+| `bun run build` | Build de produção em `dist/` |
+| `bun run preview` | Serve o build de produção localmente |
+| `bun run test` | Testes (Vitest, uma execução) |
+| `bun run test:watch` | Testes em modo watch |
+| `bun run lint` | ESLint |
 
-### `yarn eject`
+## Estrutura
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+src/
+  api/tmdb.js              busca as seções da home e os detalhes de um título
+  components/
+    Header.jsx             barra superior que fica preta ao rolar
+    FeaturedMovie.jsx      destaque sorteado entre os "Originais da Netflix"
+    MovieRow.jsx           carrossel horizontal de pôsteres
+  App.jsx                  composição da página e carregamento dos dados
+  main.jsx                 ponto de entrada (createRoot)
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Como os dados são carregados
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`getHomeList()` busca as oito seções da home em paralelo (`Promise.all`). O destaque é
+sorteado entre os resultados de "Originais da Netflix" e os detalhes completos vêm de
+`/tv/{id}`. Todas as chamadas usam `language=pt-BR`.
