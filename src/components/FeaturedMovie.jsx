@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import './FeaturedMovie.css';
@@ -34,12 +35,12 @@ const FeaturedMovie = ({ item }) => {
           </div>
           <div className="featured--description">{description}</div>
           <div className="featured--buttons">
-            <a className="featured--watchbutton" href={`/watch/${item.id}`}>
+            <Link className="featured--watchbutton" to={`/watch/${item.id}`}>
               <PlayArrowIcon /> Assistir
-            </a>
-            <a className="featured--mylistbutton" href={`/list/add/${item.id}`}>
+            </Link>
+            <Link className="featured--mylistbutton" to={`/list/add/${item.id}`}>
               <AddIcon /> Minha lista
-            </a>
+            </Link>
           </div>
           {genres.length > 0 && (
             <div className="featured--genres">

@@ -1,28 +1,47 @@
+import { Route, Routes } from 'react-router';
 import Header from './components/Header.jsx';
-import FeaturedMovie from './components/FeaturedMovie.jsx';
-import MovieRowList from './components/MovieRowList.jsx';
 import Footer from './components/Footer.jsx';
-import { ErrorScreen, LoadingScreen } from './components/Feedback.jsx';
-import { useHomeCatalog } from './hooks/useHomeCatalog.js';
+import Home from './pages/Home.jsx';
+import Placeholder from './pages/Placeholder.jsx';
+import { NAV_ITEMS } from './navItems.js';
 import { useScrolledPast } from './hooks/useScrolledPast.js';
 import './App.css';
 
+const SECTION_ROUTES = NAV_ITEMS.filter((item) => item.path !== '/');
+
 const App = () => {
-  const { sections, featured, error, isLoading } = useHomeCatalog();
   const scrolled = useScrolledPast(10);
 
   return (
     <div className="page">
       <Header black={scrolled} />
 
-      {featured && <FeaturedMovie item={featured} />}
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      <MovieRowList sections={sections} />
+        {SECTION_ROUTES.map((item) => (
+          <Route
+            key={item.path}
+            path={item.path}
+            element={<Placeholder title={item.label} />}
+          />
+        ))}
+
+        <Route path="/watch/:id" element={<Placeholder title="Player" />} />
+        <Route path="/list/add/:id" element={<Placeholder title="Minha lista" />} />
+
+        <Route
+          path="*"
+          element={
+            <Placeholder
+              title="Página não encontrada"
+              message="O endereço acessado não existe neste catálogo."
+            />
+          }
+        />
+      </Routes>
 
       <Footer />
-
-      {error && <ErrorScreen error={error} />}
-      {isLoading && <LoadingScreen />}
     </div>
   );
 };
